@@ -12,7 +12,7 @@ using backend;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241029172916_initial_migration")]
+    [Migration("20241030085835_initial_migration")]
     partial class initial_migration
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Model.Answer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("boolean");
@@ -39,8 +39,8 @@ namespace backend.Migrations
                     b.Property<float>("Points")
                         .HasColumnType("real");
 
-                    b.Property<int?>("QuestionId")
-                        .HasColumnType("integer");
+                    b.Property<long?>("QuestionId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -55,11 +55,11 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Model.Course", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -72,17 +72,17 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Model.Question", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<float>("Points")
                         .HasColumnType("real");
 
-                    b.Property<int?>("TestId")
-                        .HasColumnType("integer");
+                    b.Property<long?>("TestId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -97,14 +97,14 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Model.Test", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("integer");
+                    b.Property<long?>("CourseId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
                         .IsRequired()

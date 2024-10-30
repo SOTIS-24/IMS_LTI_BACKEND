@@ -33,8 +33,12 @@ namespace backend.Infrastructure
 
         public Test GetById(long id)
         {
-            throw new NotImplementedException();
+            return _dbSet.Include(n => n.Questions)
+                         .ThenInclude(s => s.Answers)
+                         .FirstOrDefault(n => n.Id == id);
+
         }
+
 
         public void Update(Test entity)
         {

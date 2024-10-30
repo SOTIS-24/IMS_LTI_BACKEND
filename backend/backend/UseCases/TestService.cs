@@ -22,5 +22,15 @@ namespace backend.UseCases
         {
             return MapToDto(_testRepository.GetAll().ToList());
         }
+
+        public TestDto GetById(long id)
+        {
+            var test = _testRepository.GetById(id);
+            if (test == null)
+            {
+               throw new KeyNotFoundException("Test with ID - {id} not found.");
+            }
+            return MapToDto(test);
+        }
     }
 }
