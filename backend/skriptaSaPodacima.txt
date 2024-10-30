@@ -1,0 +1,63 @@
+INSERT INTO public."Courses"(
+	"Id", "Name")
+	VALUES (1, 'Mobilne aplikacije');
+INSERT INTO public."Courses"(
+	"Id", "Name")
+	VALUES (2, 'Bezbednost u sistemima elektronskog poslovanja');
+
+
+INSERT INTO public."Tests"(
+	"Id", "Name", "Description", "CourseId")
+	VALUES (1, 'Android operativni sistem', 'Test sadrzi osnovna pitanja o operativnom sistemu Android', 1);
+INSERT INTO public."Tests"(
+	"Id", "Name", "Description", "CourseId")
+	VALUES (2, 'Komponente mobilne aplikacije', 'Test sadrzi pitanja o osnovnim komponentama i konceptima u razvoju mobilnih aplikacija', 1);
+
+
+INSERT INTO public."Questions"(
+	"Id", "Text", "Points", "TestId")
+	VALUES (1, 'Na kom operativnom sistemu je zasnovan Android', 2, 1);
+INSERT INTO public."Questions"(
+	"Id", "Text", "Points", "TestId")
+	VALUES (2, 'Koja je verzija Androida poznata kao "Lollipop"', 1, 1);
+INSERT INTO public."Questions"(
+	"Id", "Text", "Points", "TestId")
+	VALUES (3, 'Koji je programski jezik primarno korišćen za razvoj Android aplikacija?', 1, 1);
+INSERT INTO public."Questions"(
+	"Id", "Text", "Points", "TestId")
+	VALUES (4, 'Koja je osnovna komponenta Android aplikacije koja se koristi za prikazivanje korisničkog interfejsa?', 1, 2);
+INSERT INTO public."Questions"(
+	"Id", "Text", "Points", "TestId")
+	VALUES (5, 'Koja komponenta omogućava aplikaciji da obavlja pozadinske zadatke bez direktnog korisničkog interfejsa?', 1, 2);
+
+
+INSERT INTO public."Answers"(
+	"Id", "Text", "Points", "IsCorrect", "QuestionId")
+	VALUES (1, 'Windows 7', 0, false, 1);
+INSERT INTO public."Answers"(
+	"Id", "Text", "Points", "IsCorrect", "QuestionId")
+	VALUES (2, 'Windows 10', 0, false, 1);
+INSERT INTO public."Answers"(
+	"Id", "Text", "Points", "IsCorrect", "QuestionId")
+	VALUES (3, 'Linux', 2, false, 1);
+
+INSERT INTO public."Answers"(
+	"Id", "Text", "Points", "IsCorrect", "QuestionId")
+	VALUES (4, 'Android 4.0', 0, false, 2);
+INSERT INTO public."Answers"(
+	"Id", "Text", "Points", "IsCorrect", "QuestionId")
+	VALUES (5, 'Android 5.0', 1, true, 2);
+INSERT INTO public."Answers"(
+	"Id", "Text", "Points", "IsCorrect", "QuestionId")
+	VALUES (6, 'Android 6.0', 0, true, 2);
+
+
+INSERT INTO public."Answers"(
+	"Id", "Text", "Points", "IsCorrect", "QuestionId")
+	VALUES (7,'C++', 0, false, 3);
+INSERT INTO public."Answers"(
+	"Id", "Text", "Points", "IsCorrect", "QuestionId")
+	VALUES (8, 'Java', 1, true, 3);
+INSERT INTO public."Answers"(
+	"Id", "Text", "Points", "IsCorrect", "QuestionId")
+	VALUES (9, 'Python', 0, true, 3);

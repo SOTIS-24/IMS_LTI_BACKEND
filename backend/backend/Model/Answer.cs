@@ -1,0 +1,9 @@
+﻿namespace backend.Model
+{
+    public class Answer: Entity
+    {
+        public string Text { get; set; }
+        public float Points { get; set; }
+        public bool IsCorrect { get; set; }
+    }
+}

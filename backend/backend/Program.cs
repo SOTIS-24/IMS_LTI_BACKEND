@@ -1,4 +1,8 @@
 using backend;
+using backend.Infrastructure;
+using backend.IServices;
+using backend.RepositoryInterfaces;
+using backend.UseCases;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,11 +14,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+//dependency injection
+builder.Services.Configure();
+
+
 //add db
 var Configuration = builder.Configuration;
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
         x => x.MigrationsHistoryTable("_EfMigrations", Configuration.GetSection("Schema").GetSection("public").Value)));
+
+
+
+var frontEndOrigin = "frontend";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: frontEndOrigin,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000");
+                      });
+});
 
 var app = builder.Build();
 
@@ -25,7 +46,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
+app.UseCors(frontEndOrigin);
 
 app.UseAuthorization();
 

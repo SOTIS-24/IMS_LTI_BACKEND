@@ -1,7 +1,10 @@
-﻿namespace backend.Model
+﻿using backend.Model;
+
+namespace backend.Dtos
 {
-    public class Test: Entity
+    public class TestDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public List<Question> Questions { get; set; }
