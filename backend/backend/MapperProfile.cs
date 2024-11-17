@@ -9,6 +9,7 @@ namespace backend
         public MapperProfile()
         {
             CreateMap<TestDto, Test>().ReverseMap();
+            CreateMap<CourseSimpleDto, Course>().ReverseMap();
         }
     }
 }

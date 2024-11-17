@@ -3,7 +3,10 @@ using backend.Infrastructure;
 using backend.IServices;
 using backend.RepositoryInterfaces;
 using backend.UseCases;
+using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,13 +30,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 
+//builder.Services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
+
 var frontEndOrigin = "frontend";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: frontEndOrigin,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000");
+                          policy.WithOrigins("https://localhost:3000");
                       });
 });
 
@@ -46,7 +51,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+
+app.UseHttpsRedirection();
 
 app.UseCors(frontEndOrigin);
 

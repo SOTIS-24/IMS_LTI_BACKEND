@@ -13,6 +13,9 @@ namespace backend
             services.AddAutoMapper(typeof(MapperProfile).Assembly);
             services.AddScoped<ITestService, TestService>();
             services.AddScoped<ITestRepository, TestRepository>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+
         }
     }
 }
