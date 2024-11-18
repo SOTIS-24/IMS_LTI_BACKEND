@@ -1,8 +1,10 @@
-﻿using backend.Model;
+﻿using backend.Dtos;
+using backend.Model;
 
 namespace backend.RepositoryInterfaces
 {
-    public interface ICourseRepository : IRepository<Course>
+    public interface ICourseRepository 
     {
+        public List<Course> GetAll();
     }
 }

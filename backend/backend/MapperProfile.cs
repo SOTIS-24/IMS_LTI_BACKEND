@@ -10,6 +10,12 @@ namespace backend
         {
             CreateMap<TestDto, Test>().ReverseMap();
             CreateMap<CourseSimpleDto, Course>().ReverseMap();
+            CreateMap<AnswerCreateDto, Answer>().ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<QuestionCreateDto, Question>().ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<TestCreateDto, Test>().ForMember(dest => dest.Id, opt => opt.Ignore());
+
+
+
         }
     }
 }

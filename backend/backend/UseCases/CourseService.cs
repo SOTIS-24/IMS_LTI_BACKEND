@@ -3,24 +3,26 @@ using backend.Dtos;
 using backend.IServices;
 using backend.Model;
 using backend.RepositoryInterfaces;
+using Explorer.BuildingBlocks.Core.UseCases;
 using FluentResults;
 
 namespace backend.UseCases
 {
-    public class CourseService : BaseService<CourseSimpleDto, Course>, ICourseService
+    public class CourseService : CrudService<CourseSimpleDto, Course>, ICourseService
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
 
-        public CourseService(ICourseRepository repository, IMapper mapper) : base(mapper)
+        public CourseService(IRepository<Course> repository, ICourseRepository courseRepository, IMapper mapper) : base(repository, mapper)
         {
             _mapper = mapper;
-            _courseRepository = repository;
+            _courseRepository = courseRepository;
         }
 
         public List<CourseSimpleDto> GetAll()
         {
-            return MapToDto(_courseRepository.GetAll().ToList());
+            var result = _courseRepository.GetAll();
+            return MapToDto<CourseSimpleDto>(result.ToList());
         }
     }
 }

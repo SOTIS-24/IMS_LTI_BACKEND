@@ -1,4 +1,5 @@
-﻿using backend.Model;
+﻿using backend.Dtos;
+using backend.Model;
 using backend.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,30 +15,11 @@ namespace backend.Infrastructure
             _context = context;
             _dbSet = context.Set<Course>();
         }
-
-        public void Add(Course entity)
+        public List<Course> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbSet.ToList();
         }
 
-        public void Delete(long id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Course GetById(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Course entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Course> IRepository<Course>.GetAll()
-        {
-            return _context.Courses;
-        }
     }
 }

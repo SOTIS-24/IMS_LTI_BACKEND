@@ -1,5 +1,6 @@
 ﻿using backend.Dtos;
 using backend.IServices;
+using backend.Model;
 using backend.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/tests")]
-    public class TestController: ControllerBase
+    public class TestController : ControllerBase
     {
         private readonly ITestService _service;
         public TestController(ITestService service)
@@ -37,6 +38,25 @@ namespace backend.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
+
+        [HttpPost("add")]
+        public ActionResult Create([FromBody] TestCreateDto request)
+        {
+            try
+            {
+                _service.Create(request);
+                return Ok();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
 
 
     }

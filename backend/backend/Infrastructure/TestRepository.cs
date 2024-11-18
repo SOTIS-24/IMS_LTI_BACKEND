@@ -1,4 +1,5 @@
-﻿using backend.Model;
+﻿using backend.Dtos;
+using backend.Model;
 using backend.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,15 +15,8 @@ namespace backend.Infrastructure
             _context = context;
             _dbSet = context.Set<Test>();
         }
-        public void Add(Test entity)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void Delete(long id)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public List<Test> GetAll()
         {
@@ -37,17 +31,6 @@ namespace backend.Infrastructure
                          .ThenInclude(s => s.Answers)
                          .FirstOrDefault(n => n.Id == id);
 
-        }
-
-
-        public void Update(Test entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Test> IRepository<Test>.GetAll()
-        {
-            return _context.Tests.Include(t => t.Questions).ThenInclude(q => q.Answers).ToList();
         }
     }
 }

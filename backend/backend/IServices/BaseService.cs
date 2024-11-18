@@ -4,7 +4,7 @@ using FluentResults;
 
 namespace backend.IServices
 {
-    public abstract class BaseService<TDto, TDomain> where TDomain : Entity
+    public abstract class BaseService<TDomain> where TDomain : Entity
     {
         private readonly IMapper _mapper;
 
@@ -13,22 +13,22 @@ namespace backend.IServices
             _mapper = mapper;
         }
 
-        protected TDomain MapToDomain(TDto dto)
+        protected TDomain MapToDomain<TDto>(TDto dto)
         {
             return _mapper.Map<TDomain>(dto);
         }
 
-        protected List<TDomain> MapToDomain(List<TDto> dtos)
+        protected List<TDomain> MapToDomain<TDto>(List<TDto> dtos)
         {
             return dtos.Select(dto => _mapper.Map<TDomain>(dto)).ToList();
         }
 
-        protected TDto MapToDto(TDomain result)
+        protected TDto MapToDto<TDto>(TDomain result)
         {
             return _mapper.Map<TDto>(result);
         }
 
-        protected List<TDto> MapToDto(List<TDomain> result)
+        protected List<TDto> MapToDto<TDto>(List<TDomain> result)
         {
             return result.Select(_mapper.Map<TDto>).ToList();
         }
