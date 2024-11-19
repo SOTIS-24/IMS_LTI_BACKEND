@@ -1,0 +1,4 @@
+To start Database migrations, use the following commands in Package Manager Console:
+
+add-migration [name]
+update-database

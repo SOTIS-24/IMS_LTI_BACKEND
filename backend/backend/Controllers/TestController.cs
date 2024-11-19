@@ -57,8 +57,41 @@ namespace backend.Controllers
             }
         }
 
+        [HttpPut("update")]
+        public ActionResult Update([FromBody] TestDto request)
+        {
+            try
+            {
+                _service.Update(request);
+                return Ok();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
 
-
+        [HttpPut("delete")]
+        public ActionResult Delete([FromBody] TestDto request)
+        {
+            try
+            {
+                _service.Delete(request);
+                return Ok();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
     }
 
 }

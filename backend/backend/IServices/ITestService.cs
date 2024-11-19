@@ -9,8 +9,9 @@ namespace backend.IServices
         public List<TestDto> GetAll();
         public TestDto GetById(long id);
 
-        public void Create<TestCreateDto>(TestCreateDto dto); //isto bi i za update, ovo je zbog CrudService
+        public void Create<TestCreateDto>(TestCreateDto dto); 
 
-       
+        public void Update<TestDto>(TestDto dto);
+        public void Delete<TestDto>(TestDto dto);
     }
 }

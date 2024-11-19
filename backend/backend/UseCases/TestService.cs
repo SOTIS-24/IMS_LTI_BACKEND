@@ -34,10 +34,11 @@ namespace backend.UseCases
             return MapToDto<TestDto>(test);
         }
 
-
-
-
-
-
+        public void Delete<TestDto>(TestDto dto)
+        {
+            Test test = MapToDomain<TestDto>(dto);
+            test.IsDeleted = true;
+            _testRepository.Update(test);
+        }
     }
 }
