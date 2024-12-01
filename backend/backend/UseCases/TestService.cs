@@ -40,5 +40,15 @@ namespace backend.UseCases
             test.IsDeleted = true;
             _testRepository.Update(test);
         }
+
+        public TestDto Publish<TestDto>(TestDto dto)
+        {
+            Test test = MapToDomain<TestDto>(dto);             //Check if user is teacher!!!!!
+            if (test.IsPublished)
+                return default;
+
+            test.IsPublished = true;
+            return MapToDto<TestDto>(_testRepository.Update(test));
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace backend.IServices
 
         public void Update<TestDto>(TestDto dto);
         public void Delete<TestDto>(TestDto dto);
+        public TestDto Publish<TestDto>(TestDto dto);
     }
 }

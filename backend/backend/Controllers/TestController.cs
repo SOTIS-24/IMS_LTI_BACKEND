@@ -92,6 +92,27 @@ namespace backend.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
+
+        [HttpPut("publish")]
+        public ActionResult Publish([FromBody] TestDto request)
+        {
+            try
+            {
+                TestDto response = _service.Publish(request);
+                if(response != default)
+                    return Ok();
+                else 
+                    return StatusCode(400);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
     }
 
 }

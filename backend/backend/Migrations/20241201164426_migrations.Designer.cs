@@ -11,7 +11,7 @@ using backend;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241119002929_migrations")]
+    [Migration("20241201164426_migrations")]
     partial class migrations
     {
         /// <inheritdoc />
@@ -110,6 +110,9 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPublished")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
