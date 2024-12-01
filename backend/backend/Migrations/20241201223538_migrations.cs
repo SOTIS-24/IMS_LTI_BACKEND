@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -22,6 +23,22 @@ namespace backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TestResult",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Points = table.Column<float>(type: "real", nullable: false),
+                    StudentUsername = table.Column<string>(type: "text", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TestId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestResult", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +86,34 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "QuestionResult",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Points = table.Column<float>(type: "real", nullable: false),
+                    Passed = table.Column<bool>(type: "boolean", nullable: false),
+                    QuestionId = table.Column<long>(type: "bigint", nullable: false),
+                    TestResultId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionResult", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionResult_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuestionResult_TestResult_TestResultId",
+                        column: x => x.TestResultId,
+                        principalTable: "TestResult",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Answers",
                 columns: table => new
                 {
@@ -77,11 +122,17 @@ namespace backend.Migrations
                     Text = table.Column<string>(type: "text", nullable: false),
                     Points = table.Column<float>(type: "real", nullable: false),
                     IsCorrect = table.Column<bool>(type: "boolean", nullable: false),
-                    QuestionId = table.Column<long>(type: "bigint", nullable: false)
+                    QuestionId = table.Column<long>(type: "bigint", nullable: false),
+                    QuestionResultId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answers_QuestionResult_QuestionResultId",
+                        column: x => x.QuestionResultId,
+                        principalTable: "QuestionResult",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Answers_Questions_QuestionId",
                         column: x => x.QuestionId,
@@ -94,6 +145,21 @@ namespace backend.Migrations
                 name: "IX_Answers_QuestionId",
                 table: "Answers",
                 column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_QuestionResultId",
+                table: "Answers",
+                column: "QuestionResultId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionResult_QuestionId",
+                table: "QuestionResult",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionResult_TestResultId",
+                table: "QuestionResult",
+                column: "TestResultId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_TestId",
@@ -113,7 +179,13 @@ namespace backend.Migrations
                 name: "Answers");
 
             migrationBuilder.DropTable(
+                name: "QuestionResult");
+
+            migrationBuilder.DropTable(
                 name: "Questions");
+
+            migrationBuilder.DropTable(
+                name: "TestResult");
 
             migrationBuilder.DropTable(
                 name: "Tests");

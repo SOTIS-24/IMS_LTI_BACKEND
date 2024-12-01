@@ -27,6 +27,20 @@ namespace backend
                    .HasMany(t => t.Answers)
                    .WithOne()
                    .HasForeignKey(a => a.QuestionId);
+
+            modelBuilder.Entity<TestResult>()
+                    .HasMany(t => t.QuestionResults)
+                    .WithOne()
+                    .HasForeignKey(r => r.TestResultId);
+            /*
+            modelBuilder.Entity<QuestionResult>()
+                    .HasMany(a => a.Answers)
+                    .WithOne();
+
+            modelBuilder.Entity<QuestionResult>()
+                    .HasOne(q => q.Question)
+                    .WithOne();
+            */
         }
     }
 }
