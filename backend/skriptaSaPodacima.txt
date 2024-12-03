@@ -7,11 +7,11 @@ INSERT INTO public."Courses"(
 
 
 INSERT INTO public."Tests"(
-	"Id", "Name", "Description", "CourseId")
-	VALUES (1, 'Android operativni sistem', 'Test sadrzi osnovna pitanja o operativnom sistemu Android', 1);
+	"Id", "Name", "Description", "CourseId", "IsDeleted")
+	VALUES (1, 'Android operativni sistem', 'Test sadrzi osnovna pitanja o operativnom sistemu Android', 1, False);
 INSERT INTO public."Tests"(
-	"Id", "Name", "Description", "CourseId")
-	VALUES (2, 'Komponente mobilne aplikacije', 'Test sadrzi pitanja o osnovnim komponentama i konceptima u razvoju mobilnih aplikacija', 1);
+	"Id", "Name", "Description", "CourseId", "IsDeleted")
+	VALUES (2, 'Komponente mobilne aplikacije', 'Test sadrzi pitanja o osnovnim komponentama i konceptima u razvoju mobilnih aplikacija', 1, False);
 
 
 INSERT INTO public."Questions"(
