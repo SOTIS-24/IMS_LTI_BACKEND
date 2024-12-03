@@ -1,9 +1,9 @@
 INSERT INTO public."Courses"(
 	"Id", "Name")
-	VALUES (1, 'Mobilne aplikacije');
+	VALUES (1, 'Metode optimizacije');
 INSERT INTO public."Courses"(
 	"Id", "Name")
-	VALUES (2, 'Bezbednost u sistemima elektronskog poslovanja');
+	VALUES (4, 'Internet mreze');
 
 
 INSERT INTO public."Tests"(
