@@ -43,12 +43,18 @@ namespace backend.UseCases
 
         public TestDto Publish<TestDto>(TestDto dto)
         {
-            Test test = MapToDomain<TestDto>(dto);             //Check if user is teacher!!!!! ADD VALIDATION
-            if (test.IsPublished)
+            Test test = MapToDomain<TestDto>(dto);             //Check if user is teacher!!!!!
+            if (test.IsPublished || !test.IsValidForPublish())
                 return default;
 
             test.IsPublished = true;
             return MapToDto<TestDto>(_testRepository.Update(test));
+        }
+
+        public List<TestDto> GetForStudent()
+        {
+            var test = _testRepository.GetPublished();
+            return MapToDto<TestDto>(test);
         }
     }
 }

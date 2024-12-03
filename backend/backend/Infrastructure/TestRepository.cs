@@ -46,5 +46,13 @@ namespace backend.Infrastructure
             }
             return test;
         }
+
+        public List<Test> GetPublished()
+        {
+            return _dbSet.Where(t => !t.IsDeleted && t.IsPublished)
+                         .Include(n => n.Questions)
+                         .ThenInclude(s => s.Answers)
+                         .ToList();
+        }
     }
 }
