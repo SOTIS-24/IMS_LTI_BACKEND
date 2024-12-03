@@ -86,6 +86,28 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Answers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    Points = table.Column<float>(type: "real", nullable: false),
+                    IsCorrect = table.Column<bool>(type: "boolean", nullable: false),
+                    QuestionId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "QuestionResult",
                 columns: table => new
                 {
@@ -114,42 +136,38 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Answers",
+                name: "AnswerQuestionResult",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Text = table.Column<string>(type: "text", nullable: false),
-                    Points = table.Column<float>(type: "real", nullable: false),
-                    IsCorrect = table.Column<bool>(type: "boolean", nullable: false),
-                    QuestionId = table.Column<long>(type: "bigint", nullable: false),
-                    QuestionResultId = table.Column<long>(type: "bigint", nullable: true)
+                    AnswersId = table.Column<long>(type: "bigint", nullable: false),
+                    QuestionResultId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.PrimaryKey("PK_AnswerQuestionResult", x => new { x.AnswersId, x.QuestionResultId });
                     table.ForeignKey(
-                        name: "FK_Answers_QuestionResult_QuestionResultId",
+                        name: "FK_AnswerQuestionResult_Answers_AnswersId",
+                        column: x => x.AnswersId,
+                        principalTable: "Answers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AnswerQuestionResult_QuestionResult_QuestionResultId",
                         column: x => x.QuestionResultId,
                         principalTable: "QuestionResult",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Answers_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AnswerQuestionResult_QuestionResultId",
+                table: "AnswerQuestionResult",
+                column: "QuestionResultId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
                 table: "Answers",
                 column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Answers_QuestionResultId",
-                table: "Answers",
-                column: "QuestionResultId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionResult_QuestionId",
@@ -175,6 +193,9 @@ namespace backend.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AnswerQuestionResult");
+
             migrationBuilder.DropTable(
                 name: "Answers");
 

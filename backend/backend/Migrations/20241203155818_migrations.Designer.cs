@@ -12,7 +12,7 @@ using backend;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241201223538_migrations")]
+    [Migration("20241203155818_migrations")]
     partial class migrations
     {
         /// <inheritdoc />
@@ -24,6 +24,21 @@ namespace backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("AnswerQuestionResult", b =>
+                {
+                    b.Property<long>("AnswersId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("QuestionResultId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("AnswersId", "QuestionResultId");
+
+                    b.HasIndex("QuestionResultId");
+
+                    b.ToTable("AnswerQuestionResult");
+                });
 
             modelBuilder.Entity("backend.Model.Answer", b =>
                 {
@@ -42,9 +57,6 @@ namespace backend.Migrations
                     b.Property<long>("QuestionId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("QuestionResultId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("text");
@@ -52,8 +64,6 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
-
-                    b.HasIndex("QuestionResultId");
 
                     b.ToTable("Answers");
                 });
@@ -187,6 +197,21 @@ namespace backend.Migrations
                     b.ToTable("TestResult");
                 });
 
+            modelBuilder.Entity("AnswerQuestionResult", b =>
+                {
+                    b.HasOne("backend.Model.Answer", null)
+                        .WithMany()
+                        .HasForeignKey("AnswersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Model.QuestionResult", null)
+                        .WithMany()
+                        .HasForeignKey("QuestionResultId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("backend.Model.Answer", b =>
                 {
                     b.HasOne("backend.Model.Question", null)
@@ -194,10 +219,6 @@ namespace backend.Migrations
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("backend.Model.QuestionResult", null)
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionResultId");
                 });
 
             modelBuilder.Entity("backend.Model.Question", b =>
@@ -241,11 +262,6 @@ namespace backend.Migrations
                 });
 
             modelBuilder.Entity("backend.Model.Question", b =>
-                {
-                    b.Navigation("Answers");
-                });
-
-            modelBuilder.Entity("backend.Model.QuestionResult", b =>
                 {
                     b.Navigation("Answers");
                 });

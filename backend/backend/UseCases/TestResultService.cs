@@ -22,6 +22,7 @@ namespace backend.UseCases
             TestResult result = _mapper.Map<TestResult>(dto);
             if(result.isValid())
             {
+                result.TestId = dto.TestId;
                 result.StudentUsername = "anja";
                 result.DateTime = DateTime.UtcNow;
                 result.setPoints();

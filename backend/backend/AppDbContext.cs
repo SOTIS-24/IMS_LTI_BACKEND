@@ -32,15 +32,15 @@ namespace backend
                     .HasMany(t => t.QuestionResults)
                     .WithOne()
                     .HasForeignKey(r => r.TestResultId);
-            /*
+            
             modelBuilder.Entity<QuestionResult>()
                     .HasMany(a => a.Answers)
-                    .WithOne();
+                    .WithMany();
 
-            modelBuilder.Entity<QuestionResult>()
-                    .HasOne(q => q.Question)
-                    .WithOne();
-            */
+            //modelBuilder.Entity<QuestionResult>()
+            //        .HasOne(q => q.Question)
+            //        .WithOne();
+            
         }
     }
 }

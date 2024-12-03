@@ -13,7 +13,8 @@
         {
             foreach (var answer in Answers)
             {
-                Points += answer.Points;
+                if(answer.IsCorrect)
+                    Points += answer.Points;
             }
             return Points;
         }
