@@ -8,6 +8,7 @@ namespace backend.RepositoryInterfaces
     {
         public List<Test> GetAll();
 
-        public Test GetById(long id);
+        public Test? GetById(long id);
+        public Test Update(Test test);
     }
 }

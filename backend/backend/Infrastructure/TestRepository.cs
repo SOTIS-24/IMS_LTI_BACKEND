@@ -16,21 +16,35 @@ namespace backend.Infrastructure
             _dbSet = context.Set<Test>();
         }
 
-
-
         public List<Test> GetAll()
         {
-            return _dbSet.Include(n => n.Questions)
+            return _dbSet.Where(t => !t.IsDeleted)
+                         .Include(n => n.Questions)
                          .ThenInclude(s => s.Answers)
                          .ToList();
         }
 
-        public Test GetById(long id)
+        public Test? GetById(long id)
         {
-            return _dbSet.Include(n => n.Questions)
+            return _dbSet.Where(t => !t.IsDeleted)
+                         .Include(n => n.Questions)
                          .ThenInclude(s => s.Answers)
                          .FirstOrDefault(n => n.Id == id);
 
+        }
+
+        public Test Update(Test test)
+        {
+            try
+            {
+                _dbSet.Update(test);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException e)
+            {
+                throw new KeyNotFoundException(e.Message);
+            }
+            return test;
         }
     }
 }
