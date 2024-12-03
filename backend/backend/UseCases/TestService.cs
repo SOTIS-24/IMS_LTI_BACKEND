@@ -11,12 +11,14 @@ namespace backend.UseCases
     public class TestService: CrudService<TestDto, Test>, ITestService 
     {
         private readonly ITestRepository _testRepository;
+        private readonly ITestResultRepository _testResultRepository;
         private readonly IMapper _mapper;
 
-        public TestService(IRepository<Test> repository, ITestRepository testRepository, IMapper mapper) : base(repository, mapper)
+        public TestService(IRepository<Test> repository, ITestRepository testRepository, ITestResultRepository testResultRepository, IMapper mapper) : base(repository, mapper)
         {
             _mapper = mapper;
             _testRepository = testRepository;
+            _testResultRepository = testResultRepository;
         }
         public List<TestDto> GetAll()
         {
@@ -51,10 +53,21 @@ namespace backend.UseCases
             return MapToDto<TestDto>(_testRepository.Update(test));
         }
 
-        public List<TestDto> GetForStudent()
+        public List<TestDto> GetForStudent(string username)
         {
-            var test = _testRepository.GetPublished();
-            return MapToDto<TestDto>(test);
+            List<Test> publishedTests = _testRepository.GetPublished();
+            List<Test> testsForStudent = new List<Test>();
+            foreach (var test in publishedTests)
+            {
+                if(!IsTestAlreadyTaken(username, Convert.ToInt32(test.Id)))
+                    testsForStudent.Add(test);
+            }
+            return MapToDto<TestDto>(testsForStudent);
+        }
+
+        private bool IsTestAlreadyTaken(string username, int testId)
+        {
+            return _testResultRepository.GetByUserAndTest(username, testId) != null;
         }
     }
 }

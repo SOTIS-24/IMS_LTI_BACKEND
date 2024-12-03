@@ -9,9 +9,9 @@ namespace backend.UseCases
 {
     public class TestResultService : CrudService<TestResultDto, TestResult>, ITestResultService
     {
-        private readonly IRepository<TestResult> _testResultRepository;
+        private readonly ITestResultRepository _testResultRepository;
         private readonly IMapper _mapper;
-        public TestResultService(IRepository<TestResult> crudRepository, IMapper mapper) : base(crudRepository, mapper)
+        public TestResultService(ITestResultRepository crudRepository, IMapper mapper) : base(crudRepository, mapper)
         {
             _testResultRepository = crudRepository;
             _mapper = mapper;
@@ -20,7 +20,7 @@ namespace backend.UseCases
         public bool FinishTest(TestResultCreateDto dto)
         {
             TestResult result = _mapper.Map<TestResult>(dto);
-            if(result.isValid())
+            if(result.isValid() && !IsTestAlreadyTaken("anja", dto.TestId))
             {
                 result.TestId = dto.TestId;
                 result.StudentUsername = "anja";
@@ -30,6 +30,11 @@ namespace backend.UseCases
                 return true;
             }
             return false;
+        }
+
+        private bool IsTestAlreadyTaken(string username, int testId)
+        {
+            return _testResultRepository.GetByUserAndTest(username, testId) != null;
         }
     }
 }

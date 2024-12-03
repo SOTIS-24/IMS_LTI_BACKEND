@@ -119,7 +119,7 @@ namespace backend.Controllers
         {
             try
             {
-                var test = _service.GetForStudent();
+                var test = _service.GetForStudent("anja"); //change username
                 return Ok(test);
             }
             catch (KeyNotFoundException ex)
