@@ -20,10 +20,10 @@ namespace backend.UseCases
         public bool FinishTest(TestResultCreateDto dto)
         {
             TestResult result = _mapper.Map<TestResult>(dto);
-            if(result.isValid() && !IsTestAlreadyTaken("anja", dto.TestId))
+            if(result.isValid() && !IsTestAlreadyTaken(dto.StudentUsername, dto.TestId))
             {
                 result.TestId = dto.TestId;
-                result.StudentUsername = "anja";
+                result.StudentUsername = dto.StudentUsername;
                 result.DateTime = DateTime.UtcNow;
                 result.setPoints();
                 _testResultRepository.Add(result);

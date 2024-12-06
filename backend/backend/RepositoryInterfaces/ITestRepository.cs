@@ -6,10 +6,10 @@ namespace backend.RepositoryInterfaces
 {
     public interface ITestRepository
     {
-        public List<Test> GetAll();
+        public List<Test> GetByCourseId(long courseId);
 
         public Test? GetById(long id);
         public Test Update(Test test);
-        public List<Test> GetPublished();
+        public List<Test> GetPublishedByCourseId(long courseId);
     }
 }

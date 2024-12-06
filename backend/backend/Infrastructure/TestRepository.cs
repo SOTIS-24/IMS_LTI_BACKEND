@@ -16,9 +16,9 @@ namespace backend.Infrastructure
             _dbSet = context.Set<Test>();
         }
 
-        public List<Test> GetAll()
+        public List<Test> GetByCourseId(long courseId)
         {
-            return _dbSet.Where(t => !t.IsDeleted)
+            return _dbSet.Where(t => !t.IsDeleted && t.CourseId == courseId)
                          .Include(n => n.Questions)
                          .ThenInclude(s => s.Answers)
                          .ToList();
@@ -47,9 +47,9 @@ namespace backend.Infrastructure
             return test;
         }
 
-        public List<Test> GetPublished()
+        public List<Test> GetPublishedByCourseId(long courseId)
         {
-            return _dbSet.Where(t => !t.IsDeleted && t.IsPublished)
+            return _dbSet.Where(t => !t.IsDeleted && t.IsPublished && t.CourseId == courseId)
                          .Include(n => n.Questions)
                          .ThenInclude(s => s.Answers)
                          .ToList();

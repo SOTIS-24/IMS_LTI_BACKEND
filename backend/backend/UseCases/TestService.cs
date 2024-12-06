@@ -20,9 +20,9 @@ namespace backend.UseCases
             _testRepository = testRepository;
             _testResultRepository = testResultRepository;
         }
-        public List<TestDto> GetAll()
+        public List<TestDto> GetByCourseId(long courseId)
         {
-            var result = _testRepository.GetAll();
+            var result = _testRepository.GetByCourseId(courseId);
             return MapToDto<TestDto>(result.ToList());
         }
 
@@ -53,9 +53,9 @@ namespace backend.UseCases
             return MapToDto<TestDto>(_testRepository.Update(test));
         }
 
-        public List<TestDto> GetForStudent(string username)
+        public List<TestDto> GetForStudent(string username, long courseId)
         {
-            List<Test> publishedTests = _testRepository.GetPublished();
+            List<Test> publishedTests = _testRepository.GetPublishedByCourseId(courseId);
             List<Test> testsForStudent = new List<Test>();
             foreach (var test in publishedTests)
             {

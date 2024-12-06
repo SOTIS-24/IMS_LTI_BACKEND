@@ -15,10 +15,10 @@ namespace backend.Controllers
         {
             _service = service;
         }
-        [HttpGet]
-        public List<TestDto> Get()
+        [HttpGet("list/{courseId}")]
+        public List<TestDto> Get(long courseId)
         {
-            return _service.GetAll();
+            return _service.GetByCourseId(courseId);
         }
 
         [HttpGet("{id}")]
@@ -114,12 +114,12 @@ namespace backend.Controllers
             }
         }
 
-        [HttpGet("forStudent")]
-        public ActionResult<TestDto> GetForStudent()
+        [HttpGet("forStudent/{username}/{courseId}")]
+        public ActionResult<TestDto> GetForStudent(string username, long courseId)
         {
             try
             {
-                var test = _service.GetForStudent("anja"); //change username
+                var test = _service.GetForStudent(username, courseId); //change username
                 return Ok(test);
             }
             catch (KeyNotFoundException ex)

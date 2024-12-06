@@ -6,7 +6,7 @@ namespace backend.IServices
 {
     public interface ITestService
     {
-        public List<TestDto> GetAll();
+        public List<TestDto> GetByCourseId(long courseId);
         public TestDto GetById(long id);
 
         public void Create<TestCreateDto>(TestCreateDto dto); 
@@ -14,6 +14,6 @@ namespace backend.IServices
         public void Update<TestDto>(TestDto dto);
         public void Delete<TestDto>(TestDto dto);
         public TestDto Publish<TestDto>(TestDto dto);
-        public List<TestDto> GetForStudent(string username);
+        public List<TestDto> GetForStudent(string username, long courseId);
     }
 }

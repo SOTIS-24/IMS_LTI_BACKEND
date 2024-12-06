@@ -8,5 +8,7 @@ namespace backend.Dtos
         public string Description { get; set; }
         public List<QuestionCreateDto> Questions { get; set; }
         public int? CourseId { get; set; }
+
+        public string TeacherUsername { get; set; }
     }
 }

@@ -12,7 +12,7 @@ using backend;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241206090207_Initial")]
+    [Migration("20241206100216_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -161,6 +161,10 @@ namespace backend.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TeacherUsername")
                         .IsRequired()
                         .HasColumnType("text");
 

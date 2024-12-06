@@ -25,14 +25,15 @@ namespace backend.UseCases
             string courseName = ltiParams["context_title"];
             Role role = GetRole(ltiParams["roles"]);
             
-            //za sad studenta vodim na prikaz testova samo, a prof na test form
+
             if(role.Equals(Role.Learner))
             {
-                return "https://192.168.140.1:3000";
+                return "https://192.168.140.1:3000/student-landing-page/" + role.ToString() + "/" + username + "/" + courseId;
             }
             else
             {
-                return "https://192.168.140.1:3000/test-form";
+
+                return "https://192.168.140.1:3000/teacher-landing-page/" + role.ToString() + "/" + username + "/" + courseId;
             }
             
         }

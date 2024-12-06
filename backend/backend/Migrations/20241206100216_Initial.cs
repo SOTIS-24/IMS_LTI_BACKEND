@@ -51,7 +51,8 @@ namespace backend.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     CourseId = table.Column<long>(type: "bigint", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    IsPublished = table.Column<bool>(type: "boolean", nullable: false)
+                    IsPublished = table.Column<bool>(type: "boolean", nullable: false),
+                    TeacherUsername = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
