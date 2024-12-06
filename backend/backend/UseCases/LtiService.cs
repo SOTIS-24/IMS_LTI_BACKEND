@@ -21,7 +21,7 @@ namespace backend.UseCases
         {
             string username = ltiParams["custom_canvas_user_login_id"]; //vjer nece uvijek biti email, ali sam pri dodavanju korisnika stavila da je id email
             string userId = ltiParams["custom_canvas_user_id"];
-            string courseId = ltiParams["custom_canvas_course_id"]; //da li ove id-jeve zadati u bazi, zakucati
+            string courseId = ltiParams["custom_canvas_course_id"]; 
             string courseName = ltiParams["context_title"];
             Role role = GetRole(ltiParams["roles"]);
             
