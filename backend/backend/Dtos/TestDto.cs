@@ -9,5 +9,6 @@ namespace backend.Dtos
         public string Description { get; set; }
         public List<Question> Questions { get; set; }  
         public int CourseId { get; set; }
+        public bool IsPublished { get; set; }
     }
 }
