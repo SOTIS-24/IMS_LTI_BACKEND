@@ -28,12 +28,12 @@ namespace backend.UseCases
 
             if(role.Equals(Role.Learner))
             {
-                return "https://192.168.140.1:3000/student-landing-page/" + role.ToString() + "/" + username + "/" + courseId;
+                return _configuration["Redirection:Url"] + "/student-landing-page/" + role.ToString() + "/" + username + "/" + courseId;
             }
             else
             {
 
-                return "https://192.168.140.1:3000/teacher-landing-page/" + role.ToString() + "/" + username + "/" + courseId;
+                return _configuration["Redirection:Url"] + "/teacher-landing-page/" + role.ToString() + "/" + username + "/" + courseId;
             }
             
         }
