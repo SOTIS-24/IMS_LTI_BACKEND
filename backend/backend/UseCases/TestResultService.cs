@@ -36,5 +36,10 @@ namespace backend.UseCases
         {
             return _testResultRepository.GetByUserAndTest(username, testId) != null;
         }
+
+        public TestResultDto GetForStudent(string username, long courseId)
+        {
+            return MapToDto<TestResultDto>(_testResultRepository.GetForStudent(username, courseId));
+        }
     }
 }

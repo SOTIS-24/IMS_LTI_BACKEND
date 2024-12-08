@@ -47,6 +47,14 @@ namespace backend.Infrastructure
 
         }
 
+        //prikaz rezultata 1 testa jednom studentu
+        public TestResult? GetForStudent(string username, long testId)
+        {
+            return _dbSet.Where(t => t.StudentUsername.Equals(username) && t.TestId == testId).Include(n => n.QuestionResults).ThenInclude(s => s.Answers)
+                         .FirstOrDefault();
+
+        }
+
         public void Update(TestResult entity)
         {
             try
