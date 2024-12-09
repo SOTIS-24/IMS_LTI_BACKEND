@@ -50,8 +50,14 @@ namespace backend.Infrastructure
         //prikaz rezultata 1 testa jednom studentu
         public TestResult? GetForStudent(string username, long testId)
         {
-            return _dbSet.Where(t => t.StudentUsername.Equals(username) && t.TestId == testId).Include(n => n.QuestionResults).ThenInclude(s => s.Answers)
-                         .FirstOrDefault();
+            return _dbSet
+                .Where(t => t.StudentUsername.Equals(username) && t.TestId == testId)
+                .Include(n => n.QuestionResults)
+                    .ThenInclude(s => s.Answers)   
+                .Include(n => n.QuestionResults)
+                    .ThenInclude(s => s.Question)  
+                    .ThenInclude(a => a.Answers)
+                           .FirstOrDefault();
 
         }
 

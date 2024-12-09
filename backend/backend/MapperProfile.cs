@@ -15,6 +15,7 @@ namespace backend
             CreateMap<TestCreateDto, Test>().ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<QuestionResultCreateDto, QuestionResult>().ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<TestResultCreateDto, TestResult>().ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<TestResultDto, TestResult>().ReverseMap();
 
         }
     }
