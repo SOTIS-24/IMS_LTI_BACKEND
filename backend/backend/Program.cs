@@ -38,7 +38,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: frontEndOrigin,
                       policy =>
                       {
-                          policy.WithOrigins("https://192.168.140.1:3000")
+                          policy.WithOrigins("https://192.168.252.22:3000")
                           .AllowAnyMethod()  
                                 .AllowAnyHeader()  
                                 .AllowCredentials();

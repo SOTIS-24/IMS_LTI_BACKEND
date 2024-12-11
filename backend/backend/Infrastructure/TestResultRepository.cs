@@ -73,5 +73,12 @@ namespace backend.Infrastructure
                 throw new KeyNotFoundException(e.Message);
             }
         }
+
+        public List<TestResult> GetByTestId(long testId)
+        {
+            return _dbSet.Where(t => t.TestId == testId)
+                           .Include(t => t.QuestionResults).ThenInclude(a => a.Answers).Distinct().ToList();
+        }
+
     }
 }

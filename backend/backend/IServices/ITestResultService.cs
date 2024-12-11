@@ -6,5 +6,6 @@ namespace backend.IServices
     {
         public bool FinishTest(TestResultCreateDto dto);
         public TestResultDto GetForStudent(string username, long courseId);
+        public TestStatisticsDto GetTestStatistics(long testId);
     }
 }

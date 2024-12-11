@@ -10,6 +10,7 @@ namespace backend.Dtos
         public List<Question> Questions { get; set; }  
         public int CourseId { get; set; }
         public bool IsPublished { get; set; }
+        public float Points { get; set; }
         public string TeacherUsername { get; set; }
 
     }

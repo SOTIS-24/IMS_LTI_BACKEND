@@ -25,7 +25,9 @@ namespace backend.UseCases
             string courseName = ltiParams["context_title"];
             Role role = GetRole(ltiParams["roles"]);
             
-
+            role = Role.Instructor;
+            courseId = "1";
+            username = "anjaTeacher";
             if(role.Equals(Role.Learner))
             {
                 return _configuration["Redirection:Url"] + "/student-landing-page/" + role.ToString() + "/" + username + "/" + courseId;
