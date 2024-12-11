@@ -80,5 +80,10 @@ namespace backend.Infrastructure
                            .Include(t => t.QuestionResults).ThenInclude(a => a.Answers).Distinct().ToList();
         }
 
+        public List<string> GetStudentsByTestId(long testId)
+        {
+            return _dbSet.Where(t => t.TestId == testId).Select(t => t.StudentUsername)
+                         .Distinct().ToList();
+        }
     }
 }

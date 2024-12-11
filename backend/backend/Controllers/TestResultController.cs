@@ -68,6 +68,24 @@ namespace backend.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
+
+        [HttpGet("students/{testId}")]
+        public ActionResult<StudentsDto> GetStudentsByTestId(long testId)
+        {
+            try
+            {
+                var students = _service.GetStudentsByTestId(testId);
+                return Ok(students);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
     }
 
 }

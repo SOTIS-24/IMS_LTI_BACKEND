@@ -64,6 +64,14 @@ namespace backend.UseCases
             return result;
         }
 
+        public StudentsDto GetStudentsByTestId(long testId)
+        {
+            StudentsDto students = new StudentsDto();
+            students.TestId = testId;
+            students.Students = _testResultRepository.GetStudentsByTestId(testId);
+            return students;
+        }
+
         private double GetPercentageOfStudentAnswers(long testId, long questionId, long answerId, TestStatisticsDto testStatisticsDto)
         {
             double sum = 0;
@@ -73,9 +81,12 @@ namespace backend.UseCases
                 foreach(var testResult in testResults)
                 {
                     QuestionResult questionResult = testResult.QuestionResults.Find(q => q.Question.Id == questionId);
-                    var answer = questionResult.Answers.Find(a => a.QuestionId == questionId && a.Id == answerId);
-                    if (answer != null)
-                        sum++;
+                    if(questionResult != null)
+                    {
+                        var answer = questionResult.Answers.Find(a => a.QuestionId == questionId && a.Id == answerId);
+                        if (answer != null)
+                            sum++;
+                    }
                 }
             }
             else
