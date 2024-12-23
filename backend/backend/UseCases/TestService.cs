@@ -12,13 +12,17 @@ namespace backend.UseCases
     {
         private readonly ITestRepository _testRepository;
         private readonly ITestResultRepository _testResultRepository;
+        private readonly IQuestionRepository _questionRepository;
+        private readonly IAnswerRepository _answerRepository;
         private readonly IMapper _mapper;
 
-        public TestService(IRepository<Test> repository, ITestRepository testRepository, ITestResultRepository testResultRepository, IMapper mapper) : base(repository, mapper)
+        public TestService(IRepository<Test> repository, ITestRepository testRepository, ITestResultRepository testResultRepository, IQuestionRepository questionRepository, IAnswerRepository answerRepository, IMapper mapper) : base(repository, mapper)
         {
             _mapper = mapper;
             _testRepository = testRepository;
             _testResultRepository = testResultRepository;
+            _questionRepository = questionRepository;
+            _answerRepository = answerRepository;
         }
         public List<TestDto> GetByCourseId(long courseId)
         {
@@ -45,11 +49,22 @@ namespace backend.UseCases
 
         public TestDto Publish<TestDto>(TestDto dto)
         {
-            Test test = MapToDomain<TestDto>(dto);             //Check if user is teacher!!!!!
+            Test test = MapToDomain<TestDto>(dto);             
             if (test.IsPublished || !test.IsValidForPublish())
                 return default;
 
             test.IsPublished = true;
+            return MapToDto<TestDto>(_testRepository.UpdateWithoutQuestions(test));
+        }
+
+        public TestDto UpdateWithQuestions<TestDto>(TestDto dto)
+        {
+            Test test = MapToDomain<TestDto>(dto);             
+            if (test.IsPublished)
+                return default;
+
+            _answerRepository.DeleteByQuestionsId(test.Questions.Select(q => q.Id).ToList());
+            _questionRepository.DeleteByTestId(test.Id);
             return MapToDto<TestDto>(_testRepository.Update(test));
         }
 

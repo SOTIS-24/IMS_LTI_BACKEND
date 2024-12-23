@@ -11,5 +11,6 @@ namespace backend.RepositoryInterfaces
         public Test? GetById(long id);
         public Test Update(Test test);
         public List<Test> GetPublishedByCourseId(long courseId);
+        public Test UpdateWithoutQuestions(Test test);
     }
 }

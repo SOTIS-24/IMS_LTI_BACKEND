@@ -47,6 +47,24 @@ namespace backend.Infrastructure
             return test;
         }
 
+        public Test UpdateWithoutQuestions(Test test)
+        {
+            try
+            {
+                List<Question> questions = new List<Question>();
+                questions.AddRange(test.Questions);
+                test.Questions.Clear();
+                _dbSet.Update(test);
+                _context.SaveChanges();
+                test.Questions = questions;
+            }
+            catch (DbUpdateException e)
+            {
+                throw new KeyNotFoundException(e.Message);
+            }
+            return test;
+        }
+
         public List<Test> GetPublishedByCourseId(long courseId)
         {
             return _dbSet.Where(t => !t.IsDeleted && t.IsPublished && t.CourseId == courseId)

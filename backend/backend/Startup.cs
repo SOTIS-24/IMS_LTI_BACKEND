@@ -24,6 +24,8 @@ namespace backend
            // services.AddScoped(typeof(IRepository<TestResult>), typeof(CrudDatabaseRepository<TestResult, AppDbContext>));
             services.AddScoped<ITestResultRepository, TestResultRepository>();
             services.AddScoped<ITestResultService, TestResultService>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IAnswerRepository, AnswerRepository>();
         }
     }
 }

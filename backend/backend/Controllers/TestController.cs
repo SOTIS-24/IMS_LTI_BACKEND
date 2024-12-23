@@ -62,7 +62,7 @@ namespace backend.Controllers
         {
             try
             {
-                _service.Update(request);
+                _service.UpdateWithQuestions(request);
                 return Ok();
             }
             catch (KeyNotFoundException ex)

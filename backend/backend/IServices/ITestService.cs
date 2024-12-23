@@ -15,5 +15,6 @@ namespace backend.IServices
         public void Delete<TestDto>(TestDto dto);
         public TestDto Publish<TestDto>(TestDto dto);
         public List<TestDto> GetForStudent(string username, long courseId);
+        public TestDto UpdateWithQuestions<TestDto>(TestDto dto);
     }
 }
