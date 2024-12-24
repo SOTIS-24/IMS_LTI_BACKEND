@@ -34,6 +34,7 @@ namespace backend.UseCases
                 newQuestionResult.AnswersIds = q.Answers.Select(a => a.Id).ToList();
                 questionResults.Add(newQuestionResult);
             }
+            result.QuestionResults = questionResults;
             if(result.IsValid() && !IsTestAlreadyTaken(dto.StudentUsername, dto.TestId))
             {
                 result.TestId = dto.TestId;
@@ -78,12 +79,20 @@ namespace backend.UseCases
 
         public TestResultDto GetForStudent(string username, long courseId)
         {
-            var result = _testResultRepository.GetForStudent(username, courseId);
-            var resultDto = MapToDto<TestResultDto>(result);
-            foreach(var qr in resultDto.QuestionResults)
+            TestResult result = _testResultRepository.GetForStudent(username, courseId);
+            TestResultDto resultDto = new TestResultDto();
+            resultDto.Id = (int)result.Id;
+            resultDto.DateTime = result.DateTime;
+            resultDto.TestId = (int)result.TestId;
+            resultDto.StudentUsername = result.StudentUsername;
+            resultDto.Points = result.Points;
+            resultDto.QuestionResults = new List<QuestionResultDto>();
+            foreach(var qr in result.QuestionResults)
             {
-                qr.Question = _questionRepository.GetById(result.QuestionResults.Find(q => q.Id == qr.Id).QuestionId);
-                qr.Answers = _answerRepository.GetByIds(result.QuestionResults.Find(q => q.Id == qr.Id).AnswersIds);
+                QuestionResultDto questionResultDto = new QuestionResultDto();
+                questionResultDto.Question = _questionRepository.GetById(result.QuestionResults.Find(q => q.Id == qr.Id).QuestionId);
+                questionResultDto.Answers = _answerRepository.GetByIds(result.QuestionResults.Find(q => q.Id == qr.Id).AnswersIds);
+                resultDto.QuestionResults.Add(questionResultDto);
             }
             return resultDto;
         }
@@ -93,6 +102,7 @@ namespace backend.UseCases
             TestStatisticsDto result = new TestStatisticsDto();
             result.Test = _mapper.Map<TestDto>(_testRepository.GetById(testId));
             result.Test.Points = result.Test.Questions.Sum(x => x.Points);
+            result.AnswerStatistics = new List<AnswerStatisticsDto>();
             foreach (var question in result.Test.Questions) 
             { 
                 foreach(var answer in question.Answers)
@@ -130,7 +140,7 @@ namespace backend.UseCases
                     {
                         List<Answer> answers = _answerRepository.GetByIds(questionResult.AnswersIds);
                         var answer = questionResult.AnswersIds.Find(a => a == answerId);
-                        if (answer != null)
+                        if (answer != null && answer > 0)
                             sum++;
                     }
                 }

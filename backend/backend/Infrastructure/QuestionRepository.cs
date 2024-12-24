@@ -23,7 +23,7 @@ namespace backend.Infrastructure
 
         public Question? GetById(long id)
         {
-            return _dbSet.Where(q => q.Id == id).FirstOrDefault();
+            return _dbSet.Where(q => q.Id == id).Include(a => a.Answers).FirstOrDefault();
 
         }
     }
