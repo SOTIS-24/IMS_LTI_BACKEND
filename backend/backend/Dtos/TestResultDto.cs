@@ -9,6 +9,6 @@ namespace backend.Dtos
         public string StudentUsername { get; set; }
         public DateTime DateTime { get; set; }
         public int TestId { get; set; }
-        public List<QuestionResult> QuestionResults { get; set; }
+        public List<QuestionResultDto> QuestionResults { get; set; }
     }
 }

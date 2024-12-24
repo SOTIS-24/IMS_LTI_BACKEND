@@ -20,5 +20,10 @@ namespace backend.Infrastructure
             _dbSet.RemoveRange(answers);
             _context.SaveChanges();
         }
+        public List<Answer> GetByIds(List<long> ids)
+        {
+            return _dbSet.Where(a => ids.Contains(a.Id)).ToList();
+
+        }
     }
 }

@@ -11,27 +11,64 @@ namespace backend.UseCases
     {
         private readonly ITestResultRepository _testResultRepository;
         private readonly ITestRepository _testRepository;
+        private readonly IQuestionRepository _questionRepository;
+        private readonly IAnswerRepository _answerRepository;
         private readonly IMapper _mapper;
-        public TestResultService(ITestResultRepository crudRepository, ITestRepository testRepository, IMapper mapper) : base(crudRepository, mapper)
+        public TestResultService(ITestResultRepository crudRepository, ITestRepository testRepository, IQuestionRepository questionRepository, IAnswerRepository answerRepository, IMapper mapper) : base(crudRepository, mapper)
         {
             _testResultRepository = crudRepository;
             _testRepository = testRepository;
+            _questionRepository = questionRepository;
+            _answerRepository = answerRepository;
             _mapper = mapper;
         }
 
         public bool FinishTest(TestResultCreateDto dto)
         {
             TestResult result = _mapper.Map<TestResult>(dto);
-            if(result.isValid() && !IsTestAlreadyTaken(dto.StudentUsername, dto.TestId))
+            List<QuestionResult> questionResults = new List<QuestionResult>();
+            foreach (var q in dto.QuestionResults)
+            {
+                var newQuestionResult = new QuestionResult();
+                newQuestionResult.QuestionId = q.Question.Id;
+                newQuestionResult.AnswersIds = q.Answers.Select(a => a.Id).ToList();
+                questionResults.Add(newQuestionResult);
+            }
+            if(result.IsValid() && !IsTestAlreadyTaken(dto.StudentUsername, dto.TestId))
             {
                 result.TestId = dto.TestId;
                 result.StudentUsername = dto.StudentUsername;
                 result.DateTime = DateTime.UtcNow;
-                result.setPoints();
+                result.Points = CalculatePoints(dto);
                 _testResultRepository.Add(result);
                 return true;
             }
             return false;
+        }
+
+        private float CalculatePoints(TestResultCreateDto testResultCreateDto)
+        {
+            float points = 0;
+            foreach (var questionResult in testResultCreateDto.QuestionResults)
+            {
+                foreach(var answer in  questionResult.Answers)
+                {
+                    if (answer != null && answer.IsCorrect)
+                        points += answer.Points;
+                }
+            }
+
+            return points;
+        }
+        private void CalculatePoints(QuestionResultCreateDto questionResultCreateDto)
+        {
+            float points = 0;
+            foreach (var answer in questionResultCreateDto.Answers)
+            {
+                if (answer != null && answer.IsCorrect)
+                    points += answer.Points;
+            }
+            
         }
 
         private bool IsTestAlreadyTaken(string username, int testId)
@@ -41,7 +78,14 @@ namespace backend.UseCases
 
         public TestResultDto GetForStudent(string username, long courseId)
         {
-            return MapToDto<TestResultDto>(_testResultRepository.GetForStudent(username, courseId));
+            var result = _testResultRepository.GetForStudent(username, courseId);
+            var resultDto = MapToDto<TestResultDto>(result);
+            foreach(var qr in resultDto.QuestionResults)
+            {
+                qr.Question = _questionRepository.GetById(result.QuestionResults.Find(q => q.Id == qr.Id).QuestionId);
+                qr.Answers = _answerRepository.GetByIds(result.QuestionResults.Find(q => q.Id == qr.Id).AnswersIds);
+            }
+            return resultDto;
         }
 
         public TestStatisticsDto GetTestStatistics(long testId)
@@ -80,10 +124,12 @@ namespace backend.UseCases
             {
                 foreach(var testResult in testResults)
                 {
-                    QuestionResult questionResult = testResult.QuestionResults.Find(q => q.Question.Id == questionId);
+                    QuestionResult questionResult = testResult.QuestionResults.Find(q => q.QuestionId == questionId);
+                    //Question question = _questionRepository.GetById(questionResult.QuestionId);
                     if(questionResult != null)
                     {
-                        var answer = questionResult.Answers.Find(a => a.QuestionId == questionId && a.Id == answerId);
+                        List<Answer> answers = _answerRepository.GetByIds(questionResult.AnswersIds);
+                        var answer = questionResult.AnswersIds.Find(a => a == answerId);
                         if (answer != null)
                             sum++;
                     }

@@ -21,5 +21,10 @@ namespace backend.Infrastructure
             _context.SaveChanges();
         }
 
+        public Question? GetById(long id)
+        {
+            return _dbSet.Where(q => q.Id == id).FirstOrDefault();
+
+        }
     }
 }

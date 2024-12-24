@@ -10,24 +10,16 @@
         public List<QuestionResult> QuestionResults { get; set; }
 
         public TestResult() { }
-        public bool isValid()
+        public bool IsValid()
         {
             if(QuestionResults.Count == 0)
                 return false;
             foreach (var result in QuestionResults)
             {
-                if(result.Answers.Count == 0)
+                if(result.AnswersIds.Count == 0)
                     return false;
             }
             return true;
-        }
-
-        public void setPoints()
-        {
-            foreach(var result in QuestionResults)
-            {
-                Points += result.calculatePoints();
-            }
         }
     }
 }

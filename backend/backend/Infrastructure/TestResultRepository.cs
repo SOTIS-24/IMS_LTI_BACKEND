@@ -53,10 +53,6 @@ namespace backend.Infrastructure
             return _dbSet
                 .Where(t => t.StudentUsername.Equals(username) && t.TestId == testId)
                 .Include(n => n.QuestionResults)
-                    .ThenInclude(s => s.Answers)   
-                .Include(n => n.QuestionResults)
-                    .ThenInclude(s => s.Question)  
-                    .ThenInclude(a => a.Answers)
                            .FirstOrDefault();
 
         }
@@ -77,7 +73,7 @@ namespace backend.Infrastructure
         public List<TestResult> GetByTestId(long testId)
         {
             return _dbSet.Where(t => t.TestId == testId)
-                           .Include(t => t.QuestionResults).ThenInclude(a => a.Answers).Distinct().ToList();
+                           .Include(t => t.QuestionResults).Distinct().ToList();
         }
 
         public List<string> GetStudentsByTestId(long testId)
