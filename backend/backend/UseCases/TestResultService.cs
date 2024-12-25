@@ -32,6 +32,7 @@ namespace backend.UseCases
                 var newQuestionResult = new QuestionResult();
                 newQuestionResult.QuestionId = q.Question.Id;
                 newQuestionResult.AnswersIds = q.Answers.Select(a => a.Id).ToList();
+                newQuestionResult.Points = CalculatePoints(q);
                 questionResults.Add(newQuestionResult);
             }
             result.QuestionResults = questionResults;
@@ -61,7 +62,7 @@ namespace backend.UseCases
 
             return points;
         }
-        private void CalculatePoints(QuestionResultCreateDto questionResultCreateDto)
+        private float CalculatePoints(QuestionResultCreateDto questionResultCreateDto)
         {
             float points = 0;
             foreach (var answer in questionResultCreateDto.Answers)
@@ -69,7 +70,7 @@ namespace backend.UseCases
                 if (answer != null && answer.IsCorrect)
                     points += answer.Points;
             }
-            
+            return points;            
         }
 
         private bool IsTestAlreadyTaken(string username, int testId)
@@ -92,6 +93,7 @@ namespace backend.UseCases
                 QuestionResultDto questionResultDto = new QuestionResultDto();
                 questionResultDto.Question = _questionRepository.GetById(result.QuestionResults.Find(q => q.Id == qr.Id).QuestionId);
                 questionResultDto.Answers = _answerRepository.GetByIds(result.QuestionResults.Find(q => q.Id == qr.Id).AnswersIds);
+                questionResultDto.Points = qr.Points;
                 resultDto.QuestionResults.Add(questionResultDto);
             }
             return resultDto;
