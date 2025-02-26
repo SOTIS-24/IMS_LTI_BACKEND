@@ -9,7 +9,11 @@
 
         public bool IsValidForPublish()
         {
-            return Text != null && Points >= 0;
+            //logika: ako odgovor nosi pozitivne poene - mora biti tacan.
+            if (Points > 0 && !IsCorrect)
+                return false;
+
+            return Text != null && Text != "" && Points >= 0;
         }
     }
 }

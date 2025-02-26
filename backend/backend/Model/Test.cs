@@ -12,7 +12,7 @@
 
         public bool IsValidForPublish()
         {
-            bool isValid = Name != null && Description != null;
+            bool isValid = Name != null && Description != null && Name != "" && Description != "" ;
 
             if (Questions == null || Questions.Count == 0)
                 return false;
